@@ -105,7 +105,8 @@ var create = function create(component, config) {
       }
     }, {
       key: "buildTheme",
-      value: function buildTheme(props, shared) {
+      value: function buildTheme(props) {
+        var shared = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
         this.theme = undefined;
         var themes = config.themes.slice();
 
