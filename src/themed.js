@@ -53,17 +53,12 @@ const create = (component, config) => {
       ]),
     }
 
-    rebuild = undefined
+    build = true
 
     shouldComponentUpdate(nextProps) {
-      // Theme is simple object key-value pair, no need to do more advanced object comparison
-      if (!shallowEqual(this.props[config.propName], nextProps[config.propName])) {
-        this.rebuild = true
-        return true
-      }
+      this.build = !shallowEqual(this.props[config.propName], nextProps[config.propName])
 
-      this.rebuild = false
-      return true
+      return !shallowEqual(this.props, nextProps)
     }
 
     compose(target, theme) {
@@ -71,28 +66,32 @@ const create = (component, config) => {
     }
 
     buildTheme(props, shared = {}) {
-      this.theme = undefined
-      const themes = config.themes.slice()
+      if (this.build) {
+        this.theme = undefined
+        const themes = config.themes.slice()
 
-      if (props[config.propName]) {
-        themes.push(props[config.propName])
-      }
+        if (props[config.propName]) {
+          themes.push(props[config.propName])
+        }
 
-      for (let i = 0; i < themes.length; ++i) {
-        const current = themes[i]
+        for (let i = 0; i < themes.length; ++i) {
+          const current = themes[i]
 
-        if (Array.isArray(current)) {
-          this.theme = this.compose(this.theme, pluck(shared, current))
-        } else if (typeof current === 'string') {
-          this.theme = this.compose(this.theme, current === '*' ? shared : shared[current])
-        } else if (current instanceof RegExp) {
-          this.theme = this.compose(this.theme, match(shared, current))
-        } else if (typeof current === 'object') {
-          this.theme = this.compose(this.theme, current)
-        } else if (typeof current === 'function') {
-          this.theme = current(this.theme, shared)
+          if (Array.isArray(current)) {
+            this.theme = this.compose(this.theme, pluck(shared, current))
+          } else if (typeof current === 'string') {
+            this.theme = this.compose(this.theme, current === '*' ? shared : shared[current])
+          } else if (current instanceof RegExp) {
+            this.theme = this.compose(this.theme, match(shared, current))
+          } else if (typeof current === 'object') {
+            this.theme = this.compose(this.theme, current)
+          } else if (typeof current === 'function') {
+            this.theme = current(this.theme, shared)
+          }
         }
       }
+
+      this.build = false
     }
 
     render() {
@@ -104,9 +103,7 @@ const create = (component, config) => {
       return (
         <ThemeConsumer>
           {shared => {
-            if (typeof this.rebuild === 'undefined' || this.rebuild) {
-              this.buildTheme(props, shared)
-            }
+            this.buildTheme(props, shared)
 
             return createElement(component, config.mergeProps(props, {
               [config.propName]: this.theme,
