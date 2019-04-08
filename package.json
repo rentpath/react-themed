@@ -30,7 +30,7 @@
     "test:watch": "yarn run test --watch",
     "lint": "eslint src",
     "lint:fix": "yarn run lint -- --fix",
-    "publish": "yarn lean && yarn test && yarn build",
+    "publish": "yarn clean && yarn test && yarn build",
     "watch": "BABEL_ENV=commonjs babel src --out-dir lib --delete-dir-on-start --watch --ignore src/**/*.test.js --verbose"
   },
   "devDependencies": {
