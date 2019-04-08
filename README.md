@@ -1,7 +1,7 @@
 # react-themed
 A flexible library for styling React components. Intended for projects using global CSS, [JSS](https://github.com/cssinjs/jss), [CSS Modules](https://github.com/css-modules/css-modules), or any other [CSS in JS](https://github.com/MicheleBertoli/css-in-js) based library that compiles CSS classname objects.
 
-[![npm](https://img.shields.io/bundlephobia/min/@rentpath/react-themed@latest.svg)]()
+[![npm](https://img.shields.io/bundlephobia/min/@rentpath/react-themed@latest.svg)](https://bundlephobia.com/result?p=@rentpath/react-themed@4.0.6)
 [![npm](https://img.shields.io/npm/v/@rentpath/react-themed.svg)](https://www.npmjs.com/package/@rentpath/react-themed)
 [![npm](https://img.shields.io/npm/l/express.svg?style=flat-square)]()
 
