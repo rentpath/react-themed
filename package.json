@@ -2,7 +2,7 @@
   "name": "@rentpath/react-themed",
   "description": "A flexible library for styling React components",
   "version": "4.0.8",
-  "main": "./lib/index.js",
+  "main": "lib/index.js",
   "module": "es/index.js",
   "author": "Ari Bouius <aribouius@gmail.com> (http://github.com/aribouius)",
   "license": "MIT",
@@ -15,7 +15,6 @@
     "url": "https://github.com/rentpath/react-themed/issues"
   },
   "files": [
-    "dist",
     "lib",
     "src",
     "es"
