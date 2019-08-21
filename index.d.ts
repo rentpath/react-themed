@@ -3,12 +3,12 @@ import * as React from 'react'
 interface IOptions {
   pure?: boolean
 }
-interface IThemedProps {
+export interface ThemedProps {
   theme: { [x: string]: string }
 }
 
 interface IThemeProviderProps {
-  theme: string | IThemedProps | IThemedProps[]
+  theme: string | ThemedProps | ThemedProps[]
 }
 
 type composeTargetT = {}
@@ -45,7 +45,7 @@ type InferableComponentEnhancerWithProps<InjectedProps, INeedsProps> =
 type InferableComponentEnhancer<InjectedProps> = InferableComponentEnhancerWithProps<InjectedProps, {}>
 
 interface Themed {
-  (theme?: string[] | string | RegExp, options?: IOptions): InferableComponentEnhancer<IThemedProps>
+  (theme?: string[] | string | RegExp, options?: IOptions): InferableComponentEnhancer<ThemedProps>
 }
 
 export class ThemeProvider extends React.Component<IThemeProviderProps> {
