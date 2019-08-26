@@ -59,8 +59,11 @@ const create = (component, config) => {
       const { [config.propName]: themePropPrev, ...restPropPrev } = this.props
       const { [config.propName]: themePropNext, ...restPropNext } = nextProps
 
+      // We rebuild theme if theme prop is different
       this.build = !shallowEqual(themePropPrev, themePropNext)
 
+      // We also rebuild if other props have changed, but it's quicker to shallow
+      // compare non-theme prop stuff
       return (this.build || !shallowEqual(restPropPrev, restPropNext))
     }
 
