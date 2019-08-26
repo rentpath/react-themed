@@ -56,9 +56,12 @@ const create = (component, config) => {
     build = true
 
     shouldComponentUpdate(nextProps) {
-      this.build = !shallowEqual(this.props[config.propName], nextProps[config.propName])
+      const { [config.propName]: themePropPrev, ...restPropPrev } = this.props
+      const { [config.propName]: themePropNext, ...restPropNext } = nextProps
 
-      return !shallowEqual(this.props, nextProps)
+      this.build = !shallowEqual(themePropPrev, themePropNext)
+
+      return (this.build || !shallowEqual(restPropPrev, restPropNext))
     }
 
     compose(target, theme) {
