@@ -80,6 +80,13 @@ const create = (component, config) => {
           themes.push(props[config.propName])
         }
 
+        // If called as themed() or themed('*') just return the whole theme
+        // without extra processing
+        if (themes.length === 0 || (themes.length === 1 && themes[0] === '*')) {
+          this.theme = shared
+          return
+        }
+
         for (let i = 0; i < themes.length; ++i) {
           const current = themes[i]
 
@@ -96,8 +103,6 @@ const create = (component, config) => {
           }
         }
       }
-
-      this.build = false
     }
 
     render() {
