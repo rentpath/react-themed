@@ -73,11 +73,19 @@ const create = (component, config) => {
 
     buildTheme(props, shared = {}) {
       if (this.build) {
+        this.build = false // Avoid building again unless the flag is changed to true again
         this.theme = undefined
         const themes = config.themes.slice()
 
         if (props[config.propName]) {
           themes.push(props[config.propName])
+        }
+
+        // If called as themed() or themed('*') just return the whole theme
+        // without extra processing
+        if (themes.length === 0 || (themes.length === 1 && themes[0] === '*')) {
+          this.theme = shared
+          return
         }
 
         for (let i = 0; i < themes.length; ++i) {
@@ -96,8 +104,6 @@ const create = (component, config) => {
           }
         }
       }
-
-      this.build = false
     }
 
     render() {
