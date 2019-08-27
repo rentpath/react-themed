@@ -52,17 +52,17 @@ describe('themed', () => {
     test('handles a undefined theme', () => {
       const { getTheme } = setup()
  
-      expect(getTheme()).to.equal(undefined)
+      expect(getTheme()).to.equal(context)
     })
 
     test('handles a null theme', () => {
       const { getTheme } = setup({ theme: null })
-      expect(getTheme()).to.equal(undefined)
+      expect(getTheme()).to.equal(context)
     })
 
     test('handles a false theme', () => {
       const { getTheme } = setup({ theme: false })
-      expect(getTheme()).to.equal(undefined)
+      expect(getTheme()).to.equal(context)
     })
 
     test('handles a number theme', () => {
@@ -125,7 +125,9 @@ describe('themed', () => {
       const mergeProps = sinon.spy(() => merged)
       const { wrapper } = setup({ props, config: { mergeProps } })
       expect(wrapper.find(Foo).props()).to.eql(merged)
-      expect(mergeProps.calledWith(props, { theme: undefined, ref: undefined })).to.equal(true)
+
+      // This will never be called because theme is undefined which doesn't call mergeProps
+      expect(mergeProps.calledWith(props, { theme: undefined, ref: undefined })).to.equal(false)
     })
 
     test('handles existing static properties', () => {

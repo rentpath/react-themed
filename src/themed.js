@@ -73,7 +73,6 @@ const create = (component, config) => {
 
     buildTheme(props, shared = {}) {
       if (this.build) {
-        this.build = false // Avoid building again unless the flag is changed to true again
         this.theme = undefined
         const themes = config.themes.slice()
 
