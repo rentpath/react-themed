@@ -13,28 +13,6 @@ const mergeProps = (
   ...themeProps,
 })
 
-const pluck = (theme, keys) => (
-  keys.reduce((acc, key) => {
-    acc[key] = theme[key]
-    return acc
-  }, {})
-)
-
-const match = (theme, regex) => {
-  const acc = {}
-
-  for (let i = 0, keys = Object.keys(theme); i < keys.length; i++) {
-    const key = keys[i]
-
-    // Test is much faster than .match
-    if (regex.test(key)) {
-      acc[key] = theme[key]
-    }
-  }
-
-  return acc
-}
-
 const create = (component, config) => {
   class Themed extends Component {
     static [CONFIG_KEY] = config
@@ -73,35 +51,7 @@ const create = (component, config) => {
 
     buildTheme(props, shared = {}) {
       if (this.build) {
-        this.theme = undefined
-        const themes = config.themes.slice()
-
-        if (props[config.propName]) {
-          themes.push(props[config.propName])
-        }
-
-        // If called as themed() or themed('*') just return the whole theme
-        // without extra processing
-        if (themes.length === 0 || (themes.length === 1 && themes[0] === '*')) {
-          this.theme = shared
-          return
-        }
-
-        for (let i = 0; i < themes.length; ++i) {
-          const current = themes[i]
-
-          if (Array.isArray(current)) {
-            this.theme = this.compose(this.theme, pluck(shared, current))
-          } else if (typeof current === 'string') {
-            this.theme = this.compose(this.theme, current === '*' ? shared : shared[current])
-          } else if (current instanceof RegExp) {
-            this.theme = this.compose(this.theme, match(shared, current))
-          } else if (typeof current === 'object') {
-            this.theme = this.compose(this.theme, current)
-          } else if (typeof current === 'function') {
-            this.theme = current(this.theme, shared)
-          }
-        }
+        this.theme = shared
       }
     }
 
