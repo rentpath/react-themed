@@ -13,28 +13,6 @@ const mergeProps = (
   ...themeProps,
 })
 
-const pluck = (theme, keys) => (
-  keys.reduce((acc, key) => {
-    acc[key] = theme[key]
-    return acc
-  }, {})
-)
-
-const match = (theme, regex) => {
-  const acc = {}
-
-  for (let i = 0, keys = Object.keys(theme); i < keys.length; i++) {
-    const key = keys[i]
-
-    // Test is much faster than .match
-    if (regex.test(key)) {
-      acc[key] = theme[key]
-    }
-  }
-
-  return acc
-}
-
 const create = (component, config) => {
   class Themed extends Component {
     static [CONFIG_KEY] = config
@@ -53,35 +31,14 @@ const create = (component, config) => {
       ]),
     }
 
-    build = true
-
     shouldComponentUpdate(nextProps) {
-      const { [config.propName]: themePropPrev, ...restPropPrev } = this.props
-      const { [config.propName]: themePropNext, ...restPropNext } = nextProps
-
-      // We rebuild theme if theme prop is different
-      this.build = !shallowEqual(themePropPrev, themePropNext)
-
       // We also rebuild if other props have changed, but it's quicker to shallow
       // compare non-theme prop stuff
-      return (this.build || !shallowEqual(restPropPrev, restPropNext))
+      return (!shallowEqual(this.props, nextProps))
     }
 
     compose(target, theme) {
       return theme ? config.compose(target || {}, theme) : theme
-    }
-
-    buildTheme(props, shared = {}) {
-      if (this.build) {
-        this.theme = undefined
-        const themes = config.themes.slice()
-
-        if (props[config.propName]) {
-          themes.push(props[config.propName])
-        }
-
-        this.theme = shared
-      }
     }
 
     render() {
@@ -93,7 +50,7 @@ const create = (component, config) => {
       return (
         <ThemeConsumer>
           {shared => {
-            this.buildTheme(props, shared)
+            this.theme = shared
 
             return createElement(component, config.mergeProps(props, {
               [config.propName]: this.theme,
