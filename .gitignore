@@ -1,5 +1,5 @@
 es
-lib
 dist
+lib
 node_modules
 *.log
