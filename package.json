@@ -1,7 +1,7 @@
 {
   "name": "@rentpath/react-themed",
   "description": "A flexible library for styling React components",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "main": "lib/index.js",
   "module": "es/index.js",
   "author": "Ari Bouius <aribouius@gmail.com> (http://github.com/aribouius)",
@@ -31,7 +31,7 @@
     "test:watch": "yarn run test --watch",
     "lint": "eslint src",
     "lint:fix": "yarn run lint -- --fix",
-    "prepublish": "yarn test && yarn build",
+    "prepublishOnly": "yarn build",
     "watch": "BABEL_ENV=commonjs babel src --out-dir lib --delete-dir-on-start --watch --ignore src/**/*.test.js --verbose"
   },
   "devDependencies": {
