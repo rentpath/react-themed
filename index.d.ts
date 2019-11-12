@@ -8,7 +8,7 @@ export interface ThemedProps {
 }
 
 interface IThemeProviderProps {
-  theme: string | ThemedProps | ThemedProps[]
+  theme: ThemedProps['theme']
 }
 
 type composeTargetT = {}
