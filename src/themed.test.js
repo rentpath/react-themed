@@ -51,7 +51,7 @@ describe('themed', () => {
   describe('decorator', () => {
     test('handles a undefined theme', () => {
       const { getTheme } = setup()
- 
+
       expect(getTheme()).to.equal(context)
     })
 
