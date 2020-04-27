@@ -5,7 +5,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: contains(github.event.release.author.login, "rentpath-jenkins") == false && contains(github.event.release.author.login, "rentpath-semantic-release") == false
+    if: contains(github.event.release.author.login, 'rentpath-jenkins') == false && contains(github.event.release.author.login, 'rentpath-semantic-release') == false
     steps:
     - uses: actions/checkout@v2
       with:
