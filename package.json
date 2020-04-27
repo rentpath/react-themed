@@ -70,6 +70,9 @@
   "peerDependencies": {
     "react": "^16.0.0-0"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "keywords": [
     "react",
     "reactjs",

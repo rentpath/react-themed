@@ -1,0 +1,30 @@
+name: Publish on Manual Release
+on:
+  release:
+    types: [created]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: contains(github.event.release.author.login, "rentpath-jenkins") == false && contains(github.event.release.author.login, "rentpath-semantic-release") == false
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.ref }}
+    - uses: actions/setup-node@v1
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+      with:
+        node-version: '12.x'
+        registry-url: 'https://npm.pkg.github.com'
+        scope: '@rentpath'
+    - run: yarn config list
+    - run: |
+        yarn config set @rentpath:registry https://npm.pkg.github.com
+        yarn install --ignore-scripts
+    - run: npm rebuild && npm run prepare --if-present
+    - run: yarn build
+    - run: yarn lint
+    - run: yarn test:coverage
+    - run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
